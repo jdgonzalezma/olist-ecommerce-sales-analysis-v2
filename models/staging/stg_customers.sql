@@ -5,7 +5,7 @@ with source as (
 )
 
 select
-    -- Identificadores
+    -- Identificadores 
     cast(customer_id as string) as customer_id,
     cast(customer_unique_id as string) as customer_unique_id,
 
