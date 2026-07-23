@@ -1,0 +1,26 @@
+version: 2
+
+sources:
+  - name: olist_raw
+    description: "Datos crudos del e-commerce Olist subidos desde Kaggle a Databricks"
+    database: workspace
+    schema: olist_raw
+    tables:
+      - name: bronze_customers
+        description: "Tabla con información de clientes y sus códigos postales"
+      - name: bronze_orders
+        description: "Tabla principal con las órdenes, estados y fechas clave"
+      - name: bronze_order_items
+        description: "Detalle de los productos incluidos en cada orden"
+      - name: bronze_products
+        description: "Catálogo de productos y sus dimensiones físicas"
+      - name: bronze_geolocation
+        description: "Coordenadas lat/long de los códigos postales en Brasil"
+      - name: bronze_order_payments
+        description: "Métodos de pago y cuotas aplicadas por orden"
+      - name: bronze_order_reviews
+        description: "Reseñas y puntajes asignados por los compradores"
+      - name: bronze_product_category_name_translation
+        description: "Traducción de categorías de portugués a inglés"
+      - name: bronze_sellers
+        description: "Detalle de los vendedores"

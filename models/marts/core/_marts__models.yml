@@ -1,0 +1,80 @@
+version: 2
+
+models:
+  - name: dim_customers
+    description: "Dimensión de clientes que incluye ubicación geográfica."
+    columns:
+      - name: customer_id
+        description: "Llave primaria única de la orden/cliente."
+        tests:
+          - unique
+          - not_null
+
+  - name: dim_products
+    description: "Dimensión de productos con categorías traducidas al inglés y dimensiones físicas."
+    columns:
+      - name: product_id
+        description: "Llave primaria única del producto."
+        tests:
+          - unique
+          - not_null
+
+  - name: dim_sellers
+    description: "Dimensión de vendedores registrados en la plataforma Olist."
+    columns:
+      - name: seller_id
+        description: "Llave primaria única del vendedor."
+        tests:
+          - unique
+          - not_null
+
+  - name: fct_orders
+    description: "Tabla de hechos principal de órdenes. Agrega totales de pago e ítems a nivel encabezado."
+    columns:
+      - name: order_id
+        description: "Llave primaria única de la orden."
+        tests:
+          - unique
+          - not_null
+      - name: customer_id
+        description: "Llave foránea hacia dim_customers."
+        tests:
+          - not_null
+          - relationships:
+              to: ref('dim_customers')
+              field: customer_id
+
+  - name: fct_order_items
+    description: "Tabla de hechos granular a nivel de ítem por orden."
+    columns:
+      - name: order_item_key
+        description: "Surrogate key que identifica de forma única cada ítem de una orden."
+        tests:
+          - unique
+          - not_null
+      - name: product_id
+        description: "Llave foránea hacia dim_products."
+        tests:
+          - relationships:
+              to: ref('dim_products')
+              field: product_id
+      - name: seller_id
+        description: "Llave foránea hacia dim_sellers."
+        tests:
+          - relationships:
+              to: ref('dim_sellers')
+              field: seller_id
+
+  - name: fct_order_reviews
+    description: "Tabla de hechos de evaluaciones y satisfacción del cliente."
+    columns:
+      - name: review_id
+        description: "Identificador de la reseña."
+        tests:
+          - not_null
+      - name: order_id
+        description: "Llave foránea hacia fct_orders."
+        tests:
+          - relationships:
+              to: ref('fct_orders')
+              field: order_id
